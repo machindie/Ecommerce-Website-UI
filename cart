@@ -1,0 +1,317 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Shopping Cart
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        .header a {
+            text-decoration: none;
+            color: #000;
+            margin: 0 15px;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .nav-links {
+            display: flex;
+            align-items: center;
+        }
+        .header .nav-links a {
+            margin: 0 10px;
+        }
+        .header .cart-icon {
+            position: relative;
+        }
+        .header .cart-icon .fa-shopping-cart {
+            font-size: 20px;
+        }
+        .header .cart-icon .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .shopping-cart {
+            width: 65%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .shopping-cart h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .shopping-cart table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .shopping-cart table th, .shopping-cart table td {
+            padding: 15px;
+            text-align: left;
+        }
+        .shopping-cart table th {
+            border-bottom: 1px solid #ddd;
+        }
+        .shopping-cart table td img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .shopping-cart table td select, .shopping-cart table td input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .shopping-cart table td .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .shopping-cart table td .quantity-controls button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .shopping-cart table td .quantity-controls input {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+        }
+        .shopping-cart .totals {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .shopping-cart .totals div {
+            font-size: 18px;
+        }
+        .shopping-cart .continue-shopping {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .shopping-cart .continue-shopping i {
+            margin-right: 10px;
+        }
+        .payment-info {
+            width: 30%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .payment-info h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .payment-info .payment-method {
+            margin-bottom: 20px;
+        }
+        .payment-info .payment-method label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .payment-info .payment-method input {
+            margin-right: 10px;
+        }
+        .payment-info .form-group {
+            margin-bottom: 15px;
+        }
+        .payment-info .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .payment-info .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .payment-info .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .shopping-cart, .payment-info {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <header class="header">
+    <div class="logo">
+     Keranjang Belanja
+    </div>
+     <div class="cart-icon">
+      <i class="fas fa-shopping-cart">
+      </i>
+      <span class="cart-count">
+       3
+      </span>
+     </div>
+    </nav>
+   </header>
+   <div class="main-content">
+    <div class="shopping-cart">
+     <table>
+      <thead>
+       <tr>
+        <th>
+         Product
+        </th>
+        <th>
+         Size
+        </th>
+        <th>
+         Quantity
+        </th>
+        <th>
+         Total Price
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td>
+         <img alt="Orange backpack" height="50" src="baju1.jpg" width="50"/>
+         <div>
+          Baju Wanita
+         </div>
+        </td>
+        <td>
+         <select>
+          <option>
+           35L
+          </option>
+         </select>
+        </td>
+        <td>
+         <div class="quantity-controls">
+          <button>
+           -
+          </button>
+          <input type="text" value="2"/>
+          <button>
+           +
+          </button>
+         </div>
+        </td>
+        <td>
+         Rp 312.000
+        </td>
+        <td>
+         <i class="fas fa-times">
+         </i>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+     <div class="totals">
+      <div>
+       Total:
+      </div>
+      <div>
+       Rp 312.000
+      </div>
+     </div>
+     <div class="continue-shopping">
+      <i class="fas fa-arrow-left">
+      </i>
+      <a href="belisekarang.html">
+       Lanjutkan Belanja
+      </a>
+     </div>
+    </div>
+    <div class="payment-info">
+     <h2>
+      Info Pembayaran
+     </h2>
+     <div class="payment-method">
+      <label>
+       <input checked="" name="payment-method" type="radio"/>
+       Kartu Kredit
+      </label>
+      <label>
+       <input name="payment-method" type="radio"/>
+       Gopay
+      </label>
+     </div>
+     <div class="form-group">
+      <label>
+       Nama Pemilik Kartu
+      </label>
+      <input type="text" value="John Carter"/>
+     </div>
+     <div class="form-group">
+      <label>
+       Nomor Kartu
+      </label>
+      <input type="text" value="**** **** **** 2153"/>
+     </div>
+     <div class="form-group">
+      <label>
+       Tanggal Kadaluwarsa
+      </label>
+      <input type="text" value="06 / 2020"/>
+     </div>
+     <div class="form-group">
+      <label>
+       CVV
+      </label>
+      <input type="text" value="156"/>
+     </div>
+     <button class="checkout-btn">
+      Check Out
+     </button>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
