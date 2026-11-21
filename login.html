@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up</title>
+    <style>
+        /* Import font (optional) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #f9f9f9, #e3e6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container utama */
+        .container {
+            display: flex;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px; /* Jarak dari atas */
+            left: 20px; /* Jarak dari kiri */
+            color: #001f3f; /* Warna navy */
+            text-decoration: none; /* Hilangkan garis bawah */
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #808080; /* Warna abu-abu saat hover */
+            cursor: pointer;
+        }
+
+        .back-button::before {
+            content: '\2190'; /* Panah kiri */
+            margin-right: 8px; /* Jarak antara panah dan teks */
+            font-size: 20px;
+        }
+
+        /* Card Login */
+        .login-card, .signup-card {
+            width: 300px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-card h2 {
+            margin-bottom: 1rem;
+            color: #001f3f;
+        }
+
+        .social-icons span {
+            display: inline-block;
+            margin: 0 5px;
+            background: #e3e6ff;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            margin: 0.5rem 0;
+            border: none;
+            background: #f1f3ff;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 1rem;
+            background: linear-gradient(to right, #808080, #001f3f);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #808080, #001f3f);
+        }
+
+        .forgot-password {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #001f3f;
+            text-decoration: none;
+        }
+        .btn-login:hover {
+            background: #d3d3d3;
+            color: #001f3f;
+        }
+
+        /* Card Sign Up */
+        .signup-card {
+            background: linear-gradient(to bottom right, #808080, #001f3f);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signup-card h1 {
+            margin-bottom: 1rem;
+        }
+
+        .btn-signup {
+            background: transparent;
+            border: 2px solid white;
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background: white;
+            color: #001f3f;
+        }
+    </style>
+</head>
+<body>
+        <!-- Tombol Kembali di Sudut Kiri Atas -->
+        <a href="javascript:void(0);" onclick="goBack()" class="back-button">
+            Kembali
+        </a>
+    <!-- Container utama -->
+    <div class="container">
+        <!-- Card Login -->
+        <div class="login-card">
+            <h2>Masuk</h2>
+            <div class="social-icons">
+                <span>F</span> <span>G+</span> <span>in</span>
+            </div>
+            <p>Atau gunakan akun email Anda:</p>
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <a href="#" class="forgot-password">Lupa Kata Sandi?</a>
+                <button type="submit" class="btn-login">MASUK</button>
+            </form>
+        </div>
+
+        <!-- Card Sign Up -->
+        <div class="signup-card">
+            <h1>Selamat Datang Kembali!</h1>
+            <p>Masukkan detail informasi Anda untuk DAFTAR!</p>
+            <button class="btn-signup">DAFTAR</button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    
+</body>
+</html>
