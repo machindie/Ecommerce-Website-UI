@@ -1,2 +1,9 @@
 # Ecommerce-Website-UI
-Tampilan antarmuka (UI) website toko online statis yang dikembangkan menggunakan HTML, CSS, dan JavaScript di VS Code dengan fokus pada tampilan yang responsif dan interaktif.
+
+Deskripsi Proyek: Proyek ini berfokus pada perancangan tampilan antarmuka e-commerce menggunakan HTML, CSS, dan JavaScript. Perancangan dilakukan dengan memperhatikan tata letak, elemen visual, dan navigasi untuk menghasilkan tampilan yang terstruktur.
+
+Metode: Perancangan User Interface (UI).
+
+Tools: Visual Studio Code (HTML, CSS, JavaScript).
+
+Konteks Proyek: Proyek akademik - Mata Kuliah Web Design
