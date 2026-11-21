@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentrove</title>
+    <style>
+        /* RESET STYLE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #2e2e2d;
+            overflow-x: hidden;
+        }
+        header {
+            position: fixed; /* Header tetap di atas halaman */
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1000; /* Pastikan header berada di atas elemen lainnya */
+            background-color: transparent; 
+            box-shadow: none; /* Tidak ada bayangan secara default */
+        }
+        header.scrolled {
+            background-color: rgba(0, 31, 63, 0.9); /* Navy transparan */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f2f2f2;
+            width: 100px;  /* Menetapkan lebar logo yang lebih kecil */
+            height: auto;  /* Menjaga proporsi tinggi logo */
+            margin-right: 20px;
+        }
+        header .logo img {
+            max-width: 100%;  /* Agar logo tidak melebihi lebar container */
+            height: auto;  /* Menjaga proporsi gambar */
+        }
+        .header-icons {
+            display: flex; /* Mengatur ikon dalam satu baris */
+            align-items: center; /* Pusatkan vertikal ikon */
+            gap: 20px; /* Beri jarak antar ikon */
+        }
+        .header-icons .icon img {
+            width: 32px; /* Ukuran ikon */
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .header-icons .icon img:hover {
+            transform: scale(1.1); /* Efek zoom saat disentuh */
+        }
+        nav {
+            flex: 2; /* Memberi ruang agar navigasi menempel ke kiri */
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin-left: 0;
+        }
+        nav ul li {
+            position: relative;
+            justify-content: flex-start;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #b0b0b0;
+        }
+        .login-icon {
+            margin-left: 20px;
+        }
+        .login-icon img {
+            width: 32px; /* Ukuran ikon */
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .login-icon img:hover {
+            transform: scale(1.1); /* Efek zoom saat di-hover */
+        }
+        .cart-icon {
+            margin-left: 20px;
+        }
+        .cart-icon img {
+            width: 32px; /* Sesuaikan ukuran dengan ikon lainnya */
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-icon img:hover {
+            transform: scale(1.1); /* Efek saat ikon disentuh */
+        }
+        /* Hero Section */
+        .hero {
+            height: 100vh; /* Full screen height */
+            width: 100%; /* Lebar penuh */
+            background-image: url('background.jpg'); /* Ganti dengan URL gambar */
+            background-size: cover; /* Pastikan gambar menutupi seluruh area */
+            background-position: center; /* Pusatkan gambar */
+            display: flex; /* Menggunakan flexbox untuk alignment */
+            justify-content: center; /* Pusatkan konten secara horizontal */
+            align-items: center; /* Pusatkan konten secara vertikal */
+            color: #fff; /* Warna teks putih */
+            text-align: center;
+            position: relative;
+        }
+        .hero-content {
+            position: absolute;
+            text-align: left;
+            top: 40%; /* Pusatkan secara vertikal */
+            left: 10%; /* Posisikan di sebelah kiri */
+            text-align: left; /* Teks rata kiri */
+            z-index: 2;
+            color: #f2f2f2;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #001f3f;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #001f3f;
+        }
+        .hero-content button {
+            background-color: #f2f2f2;
+            color: #001f3f;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .hero-content button:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+        /* Slider Container */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%; /* Sesuaikan tinggi dengan hero */
+            overflow: hidden; /* Menghindari gambar keluar dari area slider */
+        }
+
+        .slider {
+            display: flex; /* Agar gambar saling berjajar secara horizontal */
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider img {
+            width: 100%; /* Set lebar gambar agar sesuai dengan kontainer slider */
+            max-width: 100%;
+            height: auto; /* Menjaga rasio gambar */
+            flex-shrink: 0; /* Agar setiap gambar tetap mempertahankan ukurannya */
+            width: 100%; /* Setiap gambar memenuhi lebar slider */
+            height: 100%; /* Setiap gambar memenuhi tinggi slider */
+            object-fit: cover; /* Pastikan gambar tetap proporsional */
+        }
+
+        /* Navigation buttons */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 31, 63, 0.7); /* Navy transparan */
+            color: #f2f2f2;
+            font-size: 2rem;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-icon img {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .search-icon img:hover {
+            transform: scale(1.1);
+        }
+
+        .search-bar-container {
+            position: fixed;
+            top: 60px; /* Di bawah header */
+            right: 20px; /* Dekat dengan ikon search */
+            display: none; /* Tersembunyi secara default */
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .search-bar-container input {
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #b0b0b0;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .search-bar-container button {
+            background-color: #001f3f;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .search-bar-container button:hover {
+            background-color: #003366;
+        }
+
+        .tentrove-section {
+            padding: 60px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .tentrove-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 75px;
+            margin-bottom: 70px;
+        }
+
+        .tentrove-title {
+            font-size: 1.8em;
+            color: #001f3f;
+            margin-bottom: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .tentrove-description {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .custom-divider {
+            border-top: 2px solid #ccc; /* Garis pembatas */
+            margin: 20px 0; /* Jarak di atas dan bawah pembatas */
+        }
+        .flash-sale-container {
+            padding: 40px 20px;
+            background-color: #ffffff;
+            text-align: center;
+            display: flex;
+            transition: box-shadow 0.3s ease;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        .flash-sale-title {
+            font-size: 1.8em;
+            color: #001f3f;
+            margin-bottom: 20px;
+        }
+        .countdown-timer {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .flash-sale-products {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #7f8c8d;
+        }
+
+        .sale-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #001f3f;
+            margin-bottom: 10px;
+        }
+
+        .product button {
+            background-color: #001f3f;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product button:hover {
+            background-color: grey;
+        }
+
+        .container {
+            display: flex; /* Menyusun elemen horizontal */
+            align-items: center; /* Vertikal rata tengah */
+            gap: 30px; /* Jarak antara teks dan slider */
+            padding: 20px;
+        }
+
+        .new-in-text {
+            font-size: 24px;
+            font-weight: bold;
+            white-space: nowrap; /* Agar teks tidak terpotong ke bawah */
+        }
+
+        .swiper-container {
+            width: 90%;
+            max-width: 1200px;
+            overflow: hidden; /* Mencegah slide keluar dari container */
+        }
+
+        .swiper-wrapper {
+            display: flex; /* Slide horizontal */
+        }
+
+        .swiper-slide {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .swiper-slide img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .swiper-slide a {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Welcome Section */
+        .welcome {
+            text-align: center;
+            margin: 40px 20px;
+        }
+
+        .welcome h2 {
+            font-size: 1.8rem;
+            color: #001f3f;
+            margin-bottom: 20px;
+        }
+
+        .welcome p {
+            font-size: 1rem;
+            color: #2e2e2d;
+            line-height: 1.6;
+        }
+
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #b0b0b0;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(255, 241, 241, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-box h3 {
+            font-size: 1.2rem;
+            color: #001f3f;
+            margin-bottom: 10px;
+        }
+
+        .feature-box p {
+            font-size: 0.9rem;
+            color: #2e2e2d;
+            line-height: 1.4;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .feature-box img {
+            width: 60px;  /* Atur lebar gambar sesuai keinginan */
+            height: 60px; /* Atur tinggi gambar sesuai keinginan */
+            object-fit: contain;  /* Menjaga proporsi gambar tetap sesuai */
+            margin-right: 15px;  /* Memberikan jarak antara gambar dan teks */
+            border-radius: 50%;  /* Membuat gambar menjadi lingkaran jika gambar berbentuk persegi */
+        }
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003b4d;
+            color: white;
+            padding: 20px;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .banner-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .banner-text {
+            max-width: 50%;
+        }
+        .banner-text h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .banner-text p {
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        .banner-text button {
+            background-color: white;
+            color: #003b4d;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .banner-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .banner-text {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+        footer {
+        background-color: #001f3f;
+        padding: 40px 20px;
+        }
+        .footer-section img {
+        width: 150px; /* Atur lebar logo */
+        height: auto; /* Pastikan proporsional */
+        margin-bottom: 10px; /* Beri jarak bawah */
+        }
+        .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+        }
+
+        .footer-section {
+        flex: 1;
+        margin: 10px;
+        min-width: 200px;
+        }
+        .footer-section p {
+            color: white;
+        }
+        .footer-section h2,
+        .footer-section h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #d3d3d3;
+        }
+
+        .footer-section ul {
+        list-style: none;
+        }
+
+        .footer-section ul li {
+        margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+        text-decoration: none;
+        color: white;
+        transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+        color: #007BFF;
+        }
+
+        footer form {
+        display: flex;
+        flex-direction: column;
+        }
+
+        footer input[type="email"] {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        }
+
+        footer button {
+        padding: 8px 12px;
+        border: none;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        }
+
+        footer button:hover {
+        background-color: #007BFF;
+        }
+
+        .social-icons a {
+        text-decoration: none;
+        color: #333;
+        margin-right: 10px;
+        display: inline-block;
+        }
+
+        .social-icons img {
+        width: 30px; /* Atur lebar gambar */
+        height: 30px; /* Atur tinggi gambar */
+        object-fit: contain; /* Pastikan gambar proporsional */
+        transition: opacity 0.3s ease;
+        }
+
+        .social-icons a:hover {
+        color: #007BFF;
+        }
+
+        .footer-bottom {
+            text-align: center; /* Membuat teks berada di tengah */
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            width: 100%; /* Memastikan elemen memenuhi lebar footer */
+        }
+
+        .footer-bottom p {
+            text-align: center;
+            margin: 0;
+        }
+        .footer-bottom a {
+        color: white;
+        text-decoration: none;
+        margin: 0 5px;
+        text-align: center;
+        }
+        .footer-bottom a:hover {
+        color: #007BFF;
+        }
+        .footer-bawah p {
+            text-align: center;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <!-- Ganti URL gambar dengan URL logo yang Anda inginkan -->
+            <img src="tentrovelogo.png" alt="Logo Ecommere">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="products.html">Produk</a></li>
+                <li><a href="men.html">Pria</a></li>
+                <li><a href="woman.html">Wanita</a></li>
+                <li><a href="sale.html">Promo</a></li>
+                <li><a href="about.html">Tentang</a></li>
+                <li><a href="contact.html">Kontak</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <!-- Ikon Pencarian -->
+            <div class="icon search-icon" id="search-icon">
+                <img src="cari.png" alt="Search Icon">
+            </div>
+        
+            <!-- Ikon User/Login -->
+            <div class="icon login-icon">
+            <a href="login.html">
+                <img src="login.png" alt="Login Icon">
+            </a>
+            </div>
+        
+            <!-- Ikon Keranjang -->
+            <div class="icon cart-icon">
+            <a href="cart.html">
+                <img src="logocart.png" alt="Keranjang" class="icon">
+            </a>
+            </div>
+        </div>
+        
+        </div>
+    </header>
+    <div class="search-bar-container" id="search-bar">
+        <input type="text" placeholder="Search products..." id="search-input">
+        <button type="button" onclick="searchProduct()">Search</button>
+    </div>
+
+    <!-- Hero Section with Slider -->
+    <div class="hero">
+        <!-- Slider Section on the sides -->
+        <div class= "slider-container">
+            <!-- Slider Navigation Buttons -->
+            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+            <div class="slider">
+                <img src="Home.png" alt="Product 1">
+                <div class="hero-content">
+                    <h1>Jelajahi, Temukan, Percayakan!</h1>
+                    <p>Kualitas dan Gaya ada pada ujung jari Anda</p>
+                    <a href="products.html">
+                    <button onclick="window.location.href='shop.html'">Selengkapnya</button>
+                    </a>
+                </div>
+                <img src="hero1.png" alt="Product 2">
+                <img src="promooo.png" alt="Product 3">
+            </div>
+            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <section class="tentrove-container">
+        <p class="tentrove-description">
+            Tentrove adalah platform e-commerce yang memfasilitasi transaksi jual beli secara online antara penjual dan pembeli. Dengan fitur yang lengkap, Tentrove menyediakan berbagai produk pakaian dan kelengkapan lainnya bagi pria dan wanita.Platform ini menawarkan berbagai layanan, seperti sistem pembayaran yang aman, serta pengiriman yang terintegrasi.
+        </p>
+    </section>
+
+    <div class="custom-divider"></div>
+    
+        <!-- Container untuk Teks dan Slider -->
+        <div class="container">
+            <!-- Teks "KOLEKS WANITA -->
+            <div class="new-in-text">Koleksi Wanita</div>
+    
+            <!-- Slider Container -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="baju2.jpg" alt="Bathrobes">
+                        <a href="produkbaju.html">Kemeja</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="tas11.png" alt="Versace Tag">
+                        <a href="#">Tas</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="celanacewe2.jpeg" alt="Keyrings">
+                        <a href="#">Celana</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="sepatu1.jpg" alt="Medusa Biggie">
+                        <a href="#">Sepatu</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="sepatu4.jpg" alt="Men's Bags">
+                        <a href="#">Sandal</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="makeup4.jpg" alt="Men's Bags">
+                        <a href="#">Make Up</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="aksesoris3.jpg" alt="Men's Bags">
+                        <a href="#">Aksesoris</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="skincare3.jpeg" alt="Men's Bags">
+                        <a href="#">Skincare</a>
+                    </div>
+                </div>
+                <!-- Navigasi panah -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    
+        <!-- Container untuk Teks dan Slider -->
+        <div class="container">
+            <!-- Teks "KOLEKS PRIA" -->
+            <div class="new-in-text">Koleksi Pria</div>
+    
+            <!-- Slider Container -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="kemejacowo3.jpeg" alt="Bathrobes">
+                        <a href="#">Kemeja</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="sepatucowo1.jpeg" alt="Versace Tag">
+                        <a href="#">Sepatu</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="sandalcowo2.jpeg" alt="Keyrings">
+                        <a href="#">Sandal</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="jaket1.jpeg" alt="Medusa Biggie">
+                        <a href="#">Jaket</a>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="celanacewe3.jpeg" alt="Men's Bags">
+                        <a href="#">Celana</a>
+                    </div>
+                </div>
+                <!-- Navigasi panah -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+
+        <body>
+            <div class="banner" id="banner">
+                <div class="banner-text">
+                    <h1>DISKON HINGGA 50%</h1>
+                    <p>Kejutan Diskon Minggu ini! Yuk, Borong Barang Favoritmu.</p>
+                    <a href="sale.html">
+                        <button onclick="window.location.href='shop.html'">Belanja Sekarang</button>
+                        </a>
+                </div>
+                <div class="banner-image">
+                    <img alt="A person wearing a teal dress with a deep V-neckline and a belt around the waist." height="300" src="gambarr.jpeg" width="400"/>
+                </div>
+            </div>
+        </body>
+
+
+        <section class="welcome">
+            <h2>Kenapa Memilih Tentrove?</h2>
+            <div class="features-container">
+                <div class="feature-box">
+                    <h3>Kualitas Premium</h3>
+                    <img src="premium.png" alt="premium" class="logo">
+                    <p>Tentrove menawarkan kualitas premium dalam setiap aspek platformnya, memastikan pengalaman e-commerce yang luar biasa baik bagi penjual maupun pembeli.</p>
+                </div> 
+                <div class="feature-box">
+                    <h3>Fitur Lengkap</h3>
+                    <img src="apps.png" alt="fitur" class="logo">
+                    <p>Tentrove menyediakan berbagai fitur yang dibutuhkan oleh bisnis online, seperti sistem pembayaran yang aman, manajemen stok, dan integrasi pengiriman yang memudahkan transaksi.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Terpercaya</h3>
+                    <img src="trust.png" alt="terpercaya" class="logo">
+                    <p>Tentrove dilengkapi dengan sistem pembayaran yang aman dan perlindungan data pribadi yang kuat, memberikan rasa aman bagi penjual dan pembeli dalam setiap transaksi.</p>
+                </div>
+            </div>
+        </section>
+        
+    </section>
+
+    <footer>
+      <!-- Footer Start -->
+      <footer>
+        <div class="footer-container">
+          <!-- Logo & Subscribe Section -->
+          <div class="footer-section">
+            <img src="putihtentrove.png" alt="Your Logo" class="logo-img">
+            <p>Jelajahi, Temukan, Percayakan!</p>
+            <h3>Dukung Kami</h3>
+            <form>
+              <input type="email" placeholder="Enter your Email">
+              <button type="submit">Dukung Kami</button>
+            </form>
+          </div>
+          <!-- Information Section -->
+          <div class="footer-section">
+            <h3>Informasi</h3>
+            <ul>
+              <li><a href="about.html">Tentang Kami</a></li>
+              <li><a href="products.html">Produk</a></li>
+              <li><a href="#">Review</a></li>
+              <li><a href="#">Alamat</a></li>
+            </ul>
+          </div>
+          <!-- Helpful Links Section -->
+          <div class="footer-section">
+            <h3>Tautan Bantuan</h3>
+            <ul>
+              <li><a href="#">Layanan</a></li>
+              <li><a href="#">Dukungan</a></li>
+              <li><a href="#">Syarat & Ketentuan</a></li>
+              <li><a href="#">Kebijakan Privasi</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+          <div class="footer-section contact">
+            <h3>Hubungi Kami</h3>
+          <div class="social-icons">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/089695772313" target="_blank" class="social-link">
+              <img src="wa.png" alt="WhatsApp" class="social-img">
+            </a>
+            <!-- Facebook -->
+            <a href="https://facebook.com/Machdina Indira Laupa" target="_blank" class="social-link">
+              <img src="fb.png" alt="Facebook" class="social-img">
+            </a>
+            <!-- Instagram -->
+            <a href="https://instagram.com/indiralaupa" target="_blank" class="social-link">
+              <img src="ig.png" alt="Instagram" class="social-img">
+            </a>
+            <!-- Twitter -->
+            <a href="https://twitter.com/itsmemachdina" target="_blank" class="social-link">
+              <img src="twitter.png" alt="Twitter" class="social-img">
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>
+            <a href="#">FAQ</a> | 
+            <a href="#">Privasi</a> | 
+            <a href="#">Syarat & Ketentuan</a>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer End -->
+      <div class="footer-bawah">
+      <p>2024 © Tentrove | Hak Cipta Dilindungi.</p>
+</body>
+
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll(".slider img");
+            const totalSlides = slides.length;
+
+            currentSlide += direction;
+
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } 
+
+            document.querySelector(".slider").style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+// JavaScript to toggle header background on scroll
+window.addEventListener("scroll", function () {
+    const header = document.getElementById("main-header");
+
+    if (window.scrollY > 50) {
+        header.classList.add("scrolled");
+    } else {
+        header.classList.remove("scrolled");
+    }
+});
+
+    window.addEventListener("scroll", function () {
+    const header = document.querySelector("header");
+
+    if (window.scrollY > 50) {
+        header.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+        header.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+    } else {
+        header.style.backgroundColor = "transparent";
+        header.style.boxShadow = "none";
+    }
+});
+
+// Ambil elemen ikon pencarian dan search bar
+const searchIcon = document.getElementById("search-icon");
+const searchBar = document.getElementById("search-bar");
+
+// Tambahkan event listener untuk toggle search bar
+searchIcon.addEventListener("click", function () {
+    if (searchBar.style.display === "none" || searchBar.style.display === "") {
+        searchBar.style.display = "block"; // Tampilkan search bar
+    } else {
+        searchBar.style.display = "none"; // Sembunyikan search bar
+    }
+});
+
+
+function searchProduct() {
+    const searchQuery = document.getElementById('search-input').value.toLowerCase();
+    if (searchQuery) {
+        alert(`You searched for: ${searchQuery}`);
+        // Tambahkan logika pencarian di sini
+    } else {
+        alert('Please enter a search term.');
+    }
+}
+    </script>
+    
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+        <script>
+            // Inisialisasi Swiper
+            const swiper = new Swiper('.swiper-container', {
+                slidesPerView: 5,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                loop: true,
+            });
+        </script>
+</body>
+
+</html>
